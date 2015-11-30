@@ -1,17 +1,21 @@
 $('form.form').on('submit',function(){
+  var emptyValue = false;
   var that = $(this),
-      url  = that.attr('action'),
-      type = that.attr('method'),
-      data = {};
+  url  = that.attr('action'),
+  type = that.attr('method'),
+  data = {};
 
-    that.find('[name]').each(function(index,value){
-      var that = $(this),
-          name = that.attr('name'),
-          value = that.val();
+  that.find('[name]').each(function(index,value){
+    var that = $(this),
+    name = that.attr('name'),
+    value = that.val();
+    if(that.val() == "" || that.val() == null){
+      emptyValue = true;
+    }
+    data[name] = value;
+  })
 
-          data[name] = value;
-    })
-
+  if (emptyValue == false){
     $.ajax({
       url: url,
       type: type,
@@ -21,6 +25,10 @@ $('form.form').on('submit',function(){
 
       }
     })
+  }
+  else{
+    alert("please fill out all blank fields")
+  }
 
-    return false;
+  return false;
 })
